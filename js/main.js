@@ -8,13 +8,10 @@ let mistakes = 0;
 const levelsPerMode = 15;
 
 let progressData = JSON.parse(localStorage.getItem("sumRunnerProgress")) || {};
-// Fallback if never stored
 if (!progressData[currentOperation]) progressData[currentOperation] = {};
 
 function goToScreen(screen) {
-  document
-    .querySelectorAll(".screen")
-    .forEach((s) => s.classList.remove("active"));
+  document.querySelectorAll(".screen").forEach((s) => s.classList.remove("active"));
   document.getElementById(`${screen}-screen`).classList.add("active");
 }
 
@@ -31,8 +28,16 @@ function enterAdventureMode(op) {
   gameMode = "adventure";
   currentOperation = op;
   if (!progressData[op]) progressData[op] = {};
+
+  const allCompleted = Array.from({ length: levelsPerMode }, (_, i) => i + 1)
+    .every((level) => progressData[op][level] > 0);
+
   goToScreen("level-select");
   renderLevelButtons();
+
+  if (allCompleted) {
+    showTopicCompletePopup(op);
+  }
 }
 
 function playAdventureLevel(level) {
@@ -46,27 +51,19 @@ function playAdventureLevel(level) {
 }
 
 function updateLevelUI() {
-  document.getElementById("operation-heading").textContent = `${formatOp(
-    currentOperation
-  )} - Level ${currentLevel}`;
+  document.getElementById("operation-heading").textContent = `${formatOp(currentOperation)} - Level ${currentLevel}`;
   document.getElementById("level").textContent = currentLevel;
   updateProgress();
 }
 
 function formatOp(op) {
   switch (op) {
-    case "add":
-      return "Addition";
-    case "sub":
-      return "Subtraction";
-    case "multi":
-      return "Multiplication";
-    case "div":
-      return "Division";
-    case "mixed":
-      return "Mixed Mode";
-    default:
-      return "";
+    case "add": return "Addition";
+    case "sub": return "Subtraction";
+    case "multi": return "Multiplication";
+    case "div": return "Division";
+    case "mixed": return "Mixed Mode";
+    default: return "";
   }
 }
 
@@ -91,8 +88,7 @@ function generateQuestion() {
   let wrong;
   do {
     const offset = Math.floor(Math.random() * 5) + 1;
-    wrong =
-      Math.random() > 0.5 ? currentAnswer + offset : currentAnswer - offset;
+    wrong = Math.random() > 0.5 ? currentAnswer + offset : currentAnswer - offset;
   } while (wrong === currentAnswer || wrong < 0);
 
   choicesEl.innerHTML = "";
@@ -106,7 +102,6 @@ function generateQuestion() {
     });
 }
 
-// ** Updated handleAnswer to trigger completion popup **
 function handleAnswer(selected) {
   const feedback = document.getElementById("feedback");
 
@@ -114,22 +109,19 @@ function handleAnswer(selected) {
     feedback.textContent = "✅ Correct!";
 
     if (gameMode === "adventure") {
-      // Record stars (max 3, lose 1 per mistake, min 1)
       const stars = Math.max(1, 3 - mistakes);
       progressData[currentOperation][currentLevel] = stars;
 
-      // Unlock next level
       const next = currentLevel + 1;
       if (next <= levelsPerMode && !progressData[currentOperation][next]) {
-        progressData[currentOperation][next] = 0; // 0 = unlocked but not passed
+        progressData[currentOperation][next] = 0;
       }
 
       localStorage.setItem("sumRunnerProgress", JSON.stringify(progressData));
 
-      // Check if all levels completed for this topic
       if (checkIfTopicCompleted(currentOperation)) {
-        showCompletionPopup();
-        return; // halt further progression until popup closed
+        showTopicCompletePopup(currentOperation);
+        return;
       }
     }
 
@@ -148,36 +140,25 @@ function handleAnswer(selected) {
   }
 }
 
-// Check if all levels for operation are completed (stars > 0)
 function checkIfTopicCompleted(op) {
   for (let i = 1; i <= levelsPerMode; i++) {
-    if (!progressData[op][i] || progressData[op][i] === 0) {
-      return false;
-    }
+    if (!progressData[op][i] || progressData[op][i] === 0) return false;
   }
   return true;
 }
 
-// Show the congratulations popup
-function showCompletionPopup() {
-  document.getElementById("completed-topic").textContent =
-    formatOp(currentOperation);
-  document.getElementById("completion-popup").classList.remove("hidden");
+// ✅ Unified popup function
+function showTopicCompletePopup(op) {
+  document.getElementById("topic-complete-message").textContent =
+    `${formatOp(op)} is now fully completed! ⭐️🎉`;
+  document.getElementById("topic-complete-popup").classList.remove("hidden");
 }
 
-// Close popup button event listener
-document.addEventListener("DOMContentLoaded", () => {
-  // Other initializations...
-
-  // Close popup button
-  const closeBtn = document.getElementById("close-popup");
-  if (closeBtn) {
-    closeBtn.addEventListener("click", () => {
-      document.getElementById("completion-popup").classList.add("hidden");
-      goToScreen("level-select");
-      renderLevelButtons();
-    });
-  }
+// ✅ Popup Close Handler
+document.getElementById("close-popup-btn").addEventListener("click", () => {
+  document.getElementById("topic-complete-popup").classList.add("hidden");
+  goToScreen("level-select");
+  renderLevelButtons();
 });
 
 function updateProgress() {
@@ -188,19 +169,16 @@ function updateProgress() {
 
 function getOperands(op, level) {
   let min, max;
-
   switch (op) {
     case "add":
     case "sub":
       min = Math.floor(level / 2);
-      max = min + 10 + level; // gets tougher gradually
+      max = min + 10 + level;
       break;
-
     case "multi":
       min = Math.max(1, Math.floor(level / 3));
       max = min + 5 + Math.floor(level / 2);
       break;
-
     case "div":
       min = Math.max(2, Math.floor(level / 3));
       max = min + 5 + Math.floor(level / 2);
@@ -222,31 +200,21 @@ function getRandomInt(min, max) {
 
 function getSymbol(op) {
   switch (op) {
-    case "add":
-      return "+";
-    case "sub":
-      return "-";
-    case "multi":
-      return "×";
-    case "div":
-      return "÷";
-    default:
-      return "?";
+    case "add": return "+";
+    case "sub": return "-";
+    case "multi": return "×";
+    case "div": return "÷";
+    default: return "?";
   }
 }
 
 function evaluate(a, b, op) {
   switch (op) {
-    case "add":
-      return a + b;
-    case "sub":
-      return a - b;
-    case "multi":
-      return a * b;
-    case "div":
-      return a / b;
-    default:
-      return null;
+    case "add": return a + b;
+    case "sub": return a - b;
+    case "multi": return a * b;
+    case "div": return a / b;
+    default: return null;
   }
 }
 
@@ -281,6 +249,7 @@ function renderLevelButtons() {
   }
 }
 
+// ✅ Initial load logic
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("start-button").addEventListener("click", () => {
     goToScreen("difficulty");
@@ -293,8 +262,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Popup close button event added above in DOMContentLoaded
-
   goToScreen("landing");
 });
-    
