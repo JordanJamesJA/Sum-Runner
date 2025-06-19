@@ -1,7 +1,3 @@
-# Sum Runner – A Math Adventure Game
-
-Level up your math skills in a fun and engaging way with **Sum Runner**, a browser-based arithmetic adventure built using HTML, CSS, and JavaScript. Perfect for young learners, Sum Runner helps players practice core math concepts while progressing through exciting levels of increasing difficulty.
-
 <h1>Sum Runner – The Math Adventure</h1>
 
 Welcome to **Sum Runner** – a vibrant and educational math quiz game crafted with care. This project began as a playful solution for the little ones in my immediate family — a way to make math more fun for my niece, nephew, and little cousins — and has since evolved into a full-fledged portfolio piece. Whether it’s healthy competition between siblings or solo practice time, Sum Runner brings smiles to learning.
