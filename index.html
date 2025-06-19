@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <title>Sum Runner</title>
+  </head>
+  <body>
+    <!-- Landing Screen -->
+    <div id="landing-screen" class="screen active">
+      <h1>Welcome to Sum Runner!</h1>
+      <p class="tagline">Boost your brain while having fun!</p>
+      <button id="start-button" class="start-btn">Let's Play ➡️</button>
+    </div>
+
+    <!-- Difficulty Screen -->
+    <div id="difficulty-screen" class="screen hidden">
+      <button class="back-btn" data-back-to="landing-screen">⬅️ Back</button>
+      <h2>Choose Game Mode</h2>
+      <div class="tabs">
+        <button onclick="goToScreen('free-play')">🔓 Free Play</button>
+        <button onclick="goToScreen('adventure-select')">
+          🚀 Adventure Mode
+        </button>
+      </div>
+    </div>
+
+    <!-- Free Play Screen -->
+    <div id="free-play-screen" class="screen hidden">
+      <button class="back-btn" data-back-to="difficulty-screen">⬅️ Back</button>
+      <h2>Select an Operation</h2>
+      <button onclick="startFreePlay('add')">➕ Addition</button>
+      <button onclick="startFreePlay('sub')">➖ Subtraction</button>
+      <button onclick="startFreePlay('multi')">✖️ Multiplication</button>
+      <button onclick="startFreePlay('div')">➗ Division</button>
+      <button onclick="startFreePlay('mixed')">🧠 Mixed Mode</button>
+    </div>
+
+    <!-- Adventure Mode Operation Select -->
+    <div id="adventure-select-screen" class="screen hidden">
+      <button class="back-btn" data-back-to="difficulty-screen">⬅️ Back</button>
+      <h2>Choose Operation for Adventure</h2>
+      <button onclick="enterAdventureMode('add')">➕ Addition</button>
+      <button onclick="enterAdventureMode('sub')">➖ Subtraction</button>
+      <button onclick="enterAdventureMode('multi')">✖️ Multiplication</button>
+      <button onclick="enterAdventureMode('div')">➗ Division</button>
+      <button onclick="enterAdventureMode('mixed')">🧠 Mixed Mode</button>
+    </div>
+
+    <!-- Level Select Screen (for Adventure Mode) -->
+    <div id="level-select-screen" class="screen hidden">
+      <button class="back-btn" data-back-to="difficulty-screen">⬅️ Back</button>
+      <h2>Select a Level</h2>
+      <div id="level-buttons" class="level-grid"></div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen hidden">
+      <button class="back-btn" data-back-to="difficulty-screen">⬅️ Back</button>
+      <h2 id="operation-heading">Level: Addition</h2>
+
+      <div class="question" id="question">What is 3 + 2?</div>
+
+      <div class="choices" id="choices">
+        <!-- Two answer buttons will go here -->
+      </div>
+
+      <div id="feedback" class="feedback"></div>
+
+      <div class="progress">
+        Level: <span id="level">1</span>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="completion-popup" class="hidden popup">
+      <div class="popup-content">
+        <h2>🎉 Topic Complete!</h2>
+        <p>
+          You've mastered all 40 levels of <span id="completed-topic"></span>!
+        </p>
+        <button id="close-popup">Awesome!</button>
+      </div>
+    </div>
+
+    <!-- Animated Background Shapes -->
+    <div class="background-shapes">
+      <div class="shape"></div>
+      <div class="shape"></div>
+      <div class="shape"></div>
+      <div class="shape"></div>
+      <div class="shape"></div>
+      <div class="shape"></div>
+    </div>
+
+    <script src="./js/main.js"></script>
+  </body>
+</html>
