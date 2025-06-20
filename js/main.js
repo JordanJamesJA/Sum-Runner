@@ -1,5 +1,3 @@
-// ✅ Sum Runner Structure: Free Play vs. Adventure Mode
-
 let currentLevel = 1;
 let currentAnswer = null;
 let currentOperation = "add";
@@ -11,7 +9,9 @@ let progressData = JSON.parse(localStorage.getItem("sumRunnerProgress")) || {};
 if (!progressData[currentOperation]) progressData[currentOperation] = {};
 
 function goToScreen(screen) {
-  document.querySelectorAll(".screen").forEach((s) => s.classList.remove("active"));
+  document
+    .querySelectorAll(".screen")
+    .forEach((s) => s.classList.remove("active"));
   document.getElementById(`${screen}-screen`).classList.add("active");
 }
 
@@ -29,8 +29,10 @@ function enterAdventureMode(op) {
   currentOperation = op;
   if (!progressData[op]) progressData[op] = {};
 
-  const allCompleted = Array.from({ length: levelsPerMode }, (_, i) => i + 1)
-    .every((level) => progressData[op][level] > 0);
+  const allCompleted = Array.from(
+    { length: levelsPerMode },
+    (_, i) => i + 1
+  ).every((level) => progressData[op][level] > 0);
 
   goToScreen("level-select");
   renderLevelButtons();
@@ -43,6 +45,11 @@ function enterAdventureMode(op) {
 function playAdventureLevel(level) {
   const unlocked = isLevelUnlocked(currentOperation, level);
   if (!unlocked) return;
+
+  // ✅ Save last played level and operation
+  localStorage.setItem("lastPlayedLevel", level);
+  localStorage.setItem("lastPlayedOperation", currentOperation);
+
   currentLevel = level;
   mistakes = 0;
   goToScreen("game");
@@ -51,19 +58,27 @@ function playAdventureLevel(level) {
 }
 
 function updateLevelUI() {
-  document.getElementById("operation-heading").textContent = `${formatOp(currentOperation)} - Level ${currentLevel}`;
+  document.getElementById("operation-heading").textContent = `${formatOp(
+    currentOperation
+  )} - Level ${currentLevel}`;
   document.getElementById("level").textContent = currentLevel;
   updateProgress();
 }
 
 function formatOp(op) {
   switch (op) {
-    case "add": return "Addition";
-    case "sub": return "Subtraction";
-    case "multi": return "Multiplication";
-    case "div": return "Division";
-    case "mixed": return "Mixed Mode";
-    default: return "";
+    case "add":
+      return "Addition";
+    case "sub":
+      return "Subtraction";
+    case "multi":
+      return "Multiplication";
+    case "div":
+      return "Division";
+    case "mixed":
+      return "Mixed Mode";
+    default:
+      return "";
   }
 }
 
@@ -88,7 +103,8 @@ function generateQuestion() {
   let wrong;
   do {
     const offset = Math.floor(Math.random() * 5) + 1;
-    wrong = Math.random() > 0.5 ? currentAnswer + offset : currentAnswer - offset;
+    wrong =
+      Math.random() > 0.5 ? currentAnswer + offset : currentAnswer - offset;
   } while (wrong === currentAnswer || wrong < 0);
 
   choicesEl.innerHTML = "";
@@ -147,14 +163,13 @@ function checkIfTopicCompleted(op) {
   return true;
 }
 
-// ✅ Unified popup function
 function showTopicCompletePopup(op) {
-  document.getElementById("topic-complete-message").textContent =
-    `${formatOp(op)} is now fully completed! ⭐️🎉`;
+  document.getElementById("topic-complete-message").textContent = `${formatOp(
+    op
+  )} is now fully completed! ⭐️🎉`;
   document.getElementById("topic-complete-popup").classList.remove("hidden");
 }
 
-// ✅ Popup Close Handler
 document.getElementById("close-popup-btn").addEventListener("click", () => {
   document.getElementById("topic-complete-popup").classList.add("hidden");
   goToScreen("level-select");
@@ -200,21 +215,31 @@ function getRandomInt(min, max) {
 
 function getSymbol(op) {
   switch (op) {
-    case "add": return "+";
-    case "sub": return "-";
-    case "multi": return "×";
-    case "div": return "÷";
-    default: return "?";
+    case "add":
+      return "+";
+    case "sub":
+      return "-";
+    case "multi":
+      return "×";
+    case "div":
+      return "÷";
+    default:
+      return "?";
   }
 }
 
 function evaluate(a, b, op) {
   switch (op) {
-    case "add": return a + b;
-    case "sub": return a - b;
-    case "multi": return a * b;
-    case "div": return a / b;
-    default: return null;
+    case "add":
+      return a + b;
+    case "sub":
+      return a - b;
+    case "multi":
+      return a * b;
+    case "div":
+      return a / b;
+    default:
+      return null;
   }
 }
 
@@ -249,7 +274,6 @@ function renderLevelButtons() {
   }
 }
 
-// ✅ Initial load logic
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("start-button").addEventListener("click", () => {
     goToScreen("difficulty");
@@ -262,5 +286,49 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  goToScreen("landing");
+  // ✅ Check for saved session
+  const lastOp = localStorage.getItem("lastPlayedOperation");
+  const lastLevel = parseInt(localStorage.getItem("lastPlayedLevel"), 10);
+
+  if (
+    lastOp &&
+    !isNaN(lastLevel) &&
+    progressData[lastOp] &&
+    isLevelUnlocked(lastOp, lastLevel)
+  ) {
+    // Show "Continue?" popup
+    const message = `Continue from Level ${lastLevel} in ${formatOp(lastOp)}?`;
+    document.getElementById("continue-message").textContent = message;
+    document.getElementById("continue-popup").classList.remove("hidden");
+
+    document.getElementById("continue-yes").onclick = () => {
+      currentOperation = lastOp;
+      currentLevel = lastLevel;
+      gameMode = "adventure";
+      goToScreen("game");
+      updateLevelUI();
+      generateQuestion();
+      document.getElementById("continue-popup").classList.add("hidden");
+    };
+
+    document.getElementById("continue-no").onclick = () => {
+      document.getElementById("continue-popup").classList.add("hidden");
+      goToScreen("landing");
+    };
+  } else {
+    goToScreen("landing");
+  }
 });
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("service-worker.js")
+      .then(() => {
+        console.log("Service Worker Registered");
+      })
+      .catch((err) => {
+        console.error("Service Worker Failed", err);
+      });
+  });
+}

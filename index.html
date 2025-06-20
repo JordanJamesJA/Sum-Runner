@@ -3,6 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.png" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#1A4674" />
     <link rel="stylesheet" href="./css/style.css" />
     <title>Sum Runner</title>
   </head>
@@ -81,6 +84,16 @@
         <h2>🎉 Topic Completed!</h2>
         <p id="topic-complete-message"></p>
         <button id="close-popup-btn">Great!</button>
+      </div>
+    </div>
+
+    <!-- Continue Popup -->
+    <div id="continue-popup" class="popup hidden">
+      <div class="popup-content">
+        <h2>⏱ Resume Your Progress?</h2>
+        <p id="continue-message">You were on Level X in Y. Continue?</p>
+        <button id="continue-yes">Yes, Continue</button>
+        <button id="continue-no">Start Fresh</button>
       </div>
     </div>
 
