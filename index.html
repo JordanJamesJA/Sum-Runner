@@ -3,110 +3,360 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/x-icon" href="./assets/favicon.png" />
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.png" />
     <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#1A4674" />
     <link rel="stylesheet" href="./css/style.css" />
     <title>Sum Runner</title>
   </head>
   <body>
-    <!-- Landing Screen -->
-    <div id="landing-screen" class="screen active">
-      <h1>Welcome to Sum Runner!</h1>
-      <p class="tagline">Boost your brain while having fun!</p>
-      <button id="start-button" class="start-btn">Let's Play ➡️</button>
-    </div>
-
-    <!-- Difficulty Screen -->
-    <div id="difficulty-screen" class="screen hidden">
-      <button class="back-btn" data-back-to="landing-screen">⬅️ Back</button>
-      <h2>Choose Game Mode</h2>
-      <div class="tabs">
-        <button onclick="goToScreen('free-play')">🔓 Free Play</button>
-        <button onclick="goToScreen('adventure-select')">
-          🚀 Adventure Mode
-        </button>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="screen active">
+      <div class="loading-container">
+        <div class="loading-spinner"></div>
+        <h2>Loading Sum Runner...</h2>
       </div>
     </div>
 
-    <!-- Free Play Screen -->
-    <div id="free-play-screen" class="screen hidden">
-      <button class="back-btn" data-back-to="difficulty-screen">⬅️ Back</button>
-      <h2>Select an Operation</h2>
-      <button onclick="startFreePlay('add')">➕ Addition</button>
-      <button onclick="startFreePlay('sub')">➖ Subtraction</button>
-      <button onclick="startFreePlay('multi')">✖️ Multiplication</button>
-      <button onclick="startFreePlay('div')">➗ Division</button>
-      <button onclick="startFreePlay('mixed')">🧠 Mixed Mode</button>
-    </div>
+    <!-- Start Screen -->
+    <div id="start-screen" class="screen hidden">
+      <div class="container">
+        <header class="game-header">
+          <h1 class="game-title">
+            <span class="title-sum">Sum</span>
+            <span class="title-runner">Runner</span>
+          </h1>
+          <p class="game-subtitle">Boost your brain while having fun!</p>
+        </header>
 
-    <!-- Adventure Mode Operation Select -->
-    <div id="adventure-select-screen" class="screen hidden">
-      <button class="back-btn" data-back-to="difficulty-screen">⬅️ Back</button>
-      <h2>Choose Operation for Adventure</h2>
-      <button onclick="enterAdventureMode('add')">➕ Addition</button>
-      <button onclick="enterAdventureMode('sub')">➖ Subtraction</button>
-      <button onclick="enterAdventureMode('multi')">✖️ Multiplication</button>
-      <button onclick="enterAdventureMode('div')">➗ Division</button>
-      <button onclick="enterAdventureMode('mixed')">🧠 Mixed Mode</button>
-    </div>
-
-    <!-- Level Select Screen (for Adventure Mode) -->
-    <div id="level-select-screen" class="screen hidden">
-      <button class="back-btn" data-back-to="difficulty-screen">⬅️ Back</button>
-      <h2>Select a Level</h2>
-      <div id="level-buttons" class="level-grid"></div>
-    </div>
-
-    <!-- Game Screen -->
-    <div id="game-screen" class="screen hidden">
-      <button class="back-btn" data-back-to="difficulty-screen">⬅️ Back</button>
-      <h2 id="operation-heading">Level: Addition</h2>
-
-      <div class="question" id="question">What is 3 + 2?</div>
-
-      <div class="choices" id="choices">
-        <!-- Two answer buttons will go here -->
-      </div>
-
-      <div id="feedback" class="feedback"></div>
-
-      <div class="progress">
-        Level: <span id="level">1</span>
-        <div class="progress-bar">
-          <div class="progress-fill" id="progress-fill"></div>
+        <div class="menu-buttons">
+          <button id="play-btn" class="btn btn-primary btn-large">
+            <span class="btn-icon">🎮</span>
+            Play Game
+          </button>
+          <button id="how-to-play-btn" class="btn btn-secondary">
+            <span class="btn-icon">❓</span>
+            How to Play
+          </button>
+          <button id="high-scores-btn" class="btn btn-secondary">
+            <span class="btn-icon">🏆</span>
+            High Scores
+          </button>
+          <button id="settings-btn" class="btn btn-secondary">
+            <span class="btn-icon">⚙️</span>
+            Settings
+          </button>
         </div>
       </div>
     </div>
 
-    <div id="topic-complete-popup" class="popup hidden">
-      <div class="popup-content">
-        <h2>🎉 Topic Completed!</h2>
-        <p id="topic-complete-message"></p>
-        <button id="close-popup-btn">Great!</button>
+    <!-- How to Play Screen -->
+    <div id="how-to-play-screen" class="screen hidden">
+      <div class="container">
+        <button class="back-btn" data-back="start-screen">← Back</button>
+        <h2>How to Play</h2>
+        <div class="instructions">
+          <div class="instruction-item">
+            <span class="instruction-icon">🎯</span>
+            <div>
+              <h3>Objective</h3>
+              <p>Solve math problems as quickly and accurately as possible!</p>
+            </div>
+          </div>
+          <div class="instruction-item">
+            <span class="instruction-icon">⏱️</span>
+            <div>
+              <h3>Time Limit</h3>
+              <p>
+                Each question has a time limit. Answer faster for more points!
+              </p>
+            </div>
+          </div>
+          <div class="instruction-item">
+            <span class="instruction-icon">📈</span>
+            <div>
+              <h3>Difficulty</h3>
+              <p>Questions get harder as you progress. Stay focused!</p>
+            </div>
+          </div>
+          <div class="instruction-item">
+            <span class="instruction-icon">🔥</span>
+            <div>
+              <h3>Combos</h3>
+              <p>
+                Get consecutive correct answers for bonus points and streaks!
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Continue Popup -->
-    <div id="continue-popup" class="popup hidden">
-      <div class="popup-content">
-        <h2>⏱ Resume Your Progress?</h2>
-        <p id="continue-message">You were on Level X in Y. Continue?</p>
-        <button id="continue-yes">Yes, Continue</button>
-        <button id="continue-no">Start Fresh</button>
+    <!-- High Scores Screen -->
+    <div id="high-scores-screen" class="screen hidden">
+      <div class="container">
+        <button class="back-btn" data-back="start-screen">← Back</button>
+        <h2>High Scores</h2>
+        <div id="high-scores-list" class="high-scores-list">
+          <div class="no-scores">No high scores yet. Play your first game!</div>
+        </div>
+        <button id="clear-scores-btn" class="btn btn-danger">
+          Clear All Scores
+        </button>
       </div>
     </div>
 
-    <!-- Animated Background Shapes -->
-    <div class="background-shapes">
-      <div class="shape"></div>
-      <div class="shape"></div>
-      <div class="shape"></div>
-      <div class="shape"></div>
-      <div class="shape"></div>
-      <div class="shape"></div>
+    <!-- Settings Screen -->
+    <div id="settings-screen" class="screen hidden">
+      <div class="container">
+        <button class="back-btn" data-back="start-screen">← Back</button>
+        <h2>Settings</h2>
+        <div class="settings-grid">
+          <div class="setting-item">
+            <label for="theme-toggle">Theme</label>
+            <button id="theme-toggle" class="toggle-btn">
+              <span class="toggle-text">Light</span>
+            </button>
+          </div>
+          <div class="setting-item">
+            <label for="sound-toggle">Sound Effects</label>
+            <button id="sound-toggle" class="toggle-btn active">
+              <span class="toggle-text">On</span>
+            </button>
+          </div>
+          <div class="setting-item">
+            <label for="accessibility-toggle">High Contrast</label>
+            <button id="accessibility-toggle" class="toggle-btn">
+              <span class="toggle-text">Off</span>
+            </button>
+          </div>
+          <div class="setting-item">
+            <label for="large-text-toggle">Large Text</label>
+            <button id="large-text-toggle" class="toggle-btn">
+              <span class="toggle-text">Off</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
+    <!-- Game Mode Selection -->
+    <div id="game-mode-screen" class="screen hidden">
+      <div class="container">
+        <button class="back-btn" data-back="start-screen">← Back</button>
+        <h2>Choose Game Mode</h2>
+        <div class="mode-buttons">
+          <button id="endless-mode-btn" class="btn btn-primary btn-large">
+            <span class="btn-icon">∞</span>
+            <div>
+              <strong>Endless Mode</strong>
+              <small>Play until you can't keep up!</small>
+            </div>
+          </button>
+          <button id="time-attack-btn" class="btn btn-secondary btn-large">
+            <span class="btn-icon">⏰</span>
+            <div>
+              <strong>Time Attack</strong>
+              <small>60 seconds of pure math!</small>
+            </div>
+          </button>
+          <button id="custom-mode-btn" class="btn btn-secondary btn-large">
+            <span class="btn-icon">⚙️</span>
+            <div>
+              <strong>Custom Mode</strong>
+              <small>Set your own rules!</small>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Custom Settings Screen -->
+    <div id="custom-settings-screen" class="screen hidden">
+      <div class="container">
+        <button class="back-btn" data-back="game-mode-screen">← Back</button>
+        <h2>Custom Game Settings</h2>
+        <div class="custom-settings">
+          <div class="setting-group">
+            <label>Operations</label>
+            <div class="checkbox-group">
+              <label class="checkbox-item">
+                <input type="checkbox" id="addition-toggle" checked />
+                <span>Addition (+)</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" id="subtraction-toggle" checked />
+                <span>Subtraction (−)</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" id="multiplication-toggle" />
+                <span>Multiplication (×)</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" id="division-toggle" />
+                <span>Division (÷)</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="setting-group">
+            <label for="difficulty-slider">Starting Difficulty</label>
+            <input
+              type="range"
+              id="difficulty-slider"
+              min="1"
+              max="5"
+              value="1"
+              class="slider"
+            />
+            <div class="slider-labels">
+              <span>Easy</span>
+              <span>Hard</span>
+            </div>
+          </div>
+
+          <div class="setting-group">
+            <label for="time-limit-slider">Time per Question (seconds)</label>
+            <input
+              type="range"
+              id="time-limit-slider"
+              min="3"
+              max="15"
+              value="8"
+              class="slider"
+            />
+            <div class="slider-labels">
+              <span>3s</span>
+              <span>15s</span>
+            </div>
+          </div>
+        </div>
+
+        <button id="start-custom-game-btn" class="btn btn-primary btn-large">
+          Start Custom Game
+        </button>
+      </div>
+    </div>
+
+    <!-- Countdown Screen -->
+    <div id="countdown-screen" class="screen hidden">
+      <div class="container">
+        <div class="countdown-display">
+          <div id="countdown-number" class="countdown-number">3</div>
+          <div class="countdown-text">Get Ready!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen hidden">
+      <div class="game-container">
+        <!-- Game Header -->
+        <div class="game-header-bar">
+          <button id="pause-btn" class="btn btn-small">⏸️</button>
+          <div class="game-stats">
+            <div class="stat">
+              <span class="stat-label">Score</span>
+              <span id="current-score" class="stat-value">0</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label">Streak</span>
+              <span id="current-streak" class="stat-value">0</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label">Level</span>
+              <span id="current-level" class="stat-value">1</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timer Bar -->
+        <div class="timer-bar">
+          <div id="timer-fill" class="timer-fill"></div>
+        </div>
+
+        <!-- Question Area -->
+        <div class="question-area">
+          <div id="question-text" class="question-text">5 + 3 = ?</div>
+          <div id="answer-buttons" class="answer-buttons">
+            <!-- Answer buttons will be generated dynamically -->
+          </div>
+        </div>
+
+        <!-- Feedback Area -->
+        <div id="feedback-area" class="feedback-area hidden">
+          <div id="feedback-text" class="feedback-text"></div>
+          <div id="points-animation" class="points-animation"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pause Screen -->
+    <div id="pause-screen" class="screen hidden overlay">
+      <div class="container pause-container">
+        <h2>Game Paused</h2>
+        <div class="pause-stats">
+          <div class="stat">Score: <span id="pause-score">0</span></div>
+          <div class="stat">Streak: <span id="pause-streak">0</span></div>
+          <div class="stat">Accuracy: <span id="pause-accuracy">0</span>%</div>
+        </div>
+        <div class="pause-buttons">
+          <button id="resume-btn" class="btn btn-primary">Resume Game</button>
+          <button id="quit-btn" class="btn btn-secondary">Quit Game</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- End Screen -->
+    <div id="end-screen" class="screen hidden">
+      <div class="container">
+        <div class="end-game-content">
+          <h2 id="end-title">Game Over!</h2>
+          <div id="new-high-score" class="new-high-score hidden">
+            🎉 New High Score! 🎉
+          </div>
+
+          <div class="final-stats">
+            <div class="stat-card">
+              <div class="stat-number" id="final-score">0</div>
+              <div class="stat-label">Final Score</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" id="final-accuracy">0%</div>
+              <div class="stat-label">Accuracy</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" id="final-time">0s</div>
+              <div class="stat-label">Time Played</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" id="max-streak">0</div>
+              <div class="stat-label">Best Streak</div>
+            </div>
+          </div>
+
+          <div class="end-buttons">
+            <button id="play-again-btn" class="btn btn-primary btn-large">
+              Play Again
+            </button>
+            <button id="main-menu-btn" class="btn btn-secondary">
+              Main Menu
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Animations Container -->
+    <div id="floating-animations" class="floating-animations"></div>
+
+    <!-- Background Elements -->
+    <div class="background-elements">
+      <div class="bg-shape bg-shape-1"></div>
+      <div class="bg-shape bg-shape-2"></div>
+      <div class="bg-shape bg-shape-3"></div>
+      <div class="bg-shape bg-shape-4"></div>
+    </div>
     <script src="./js/main.js"></script>
   </body>
 </html>
