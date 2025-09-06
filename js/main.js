@@ -1,7 +1,7 @@
-/* ========================================
+/* 
    Sum Runner - Game Logic
    Modern JavaScript Implementation
-   ======================================== */
+    */
 
 // Game Configuration Constants
 const CONFIG = {

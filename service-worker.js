@@ -1,18 +1,18 @@
-const CACHE_NAME = "sum-runner-cache-v2"; // bump this when you deploy
+const CACHE_NAME = "sum-runner-cache-v2";
 const urlsToCache = [
   "/",
-  "/index.html",
-  "/css/style.css",
-  "/js/main.js",
-  "/manifest.json",
-  "/assets/favicon.png",
-  "/assets/icon-192x192.png",
-  "/assets/icon-512x512.png",
+  "/index.html?v=2",
+  "/css/style.css?v=2",
+  "/js/main.js?v=2",
+  "/manifest.json?v=2",
+  "/assets/favicon.png?v=2",
+  "/assets/icon-192x192.png?v=2",
+  "/assets/icon-512x512.png?v=2",
 ];
 
 // Install event
 self.addEventListener("install", (event) => {
-  self.skipWaiting(); // 🚀 activate immediately
+  self.skipWaiting(); //
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
   );
@@ -31,7 +31,7 @@ self.addEventListener("activate", (event) => {
         )
       )
   );
-  self.clients.claim(); // 🚀 control all pages right away
+  self.clients.claim(); //
 });
 
 // Fetch event
@@ -56,10 +56,10 @@ self.addEventListener("fetch", (event) => {
         .catch(() => {
           // Offline fallbacks
           if (event.request.destination === "image") {
-            return caches.match("/assets/icon-192x192.png");
+            return caches.match("/assets/icon-192x192.png?v=2");
           }
           if (event.request.headers.get("accept")?.includes("text/html")) {
-            return caches.match("/index.html");
+            return caches.match("/index.html?v=2");
           }
         });
     })

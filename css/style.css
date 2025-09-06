@@ -1,6 +1,6 @@
-/* ========================================
+/* 
    Sum Runner - Modern CSS Styles
-   ======================================== */
+    */
 
 /* CSS Custom Properties for easy theming */
 :root {
@@ -53,9 +53,9 @@
   font-size: 18px;
 }
 
-/* ========================================
+/* 
    Base Styles & Reset
-   ======================================== */
+    */
 
 * {
   box-sizing: border-box;
@@ -81,9 +81,9 @@ body {
   min-height: 100vh;
 }
 
-/* ========================================
+/* 
    Screen Management
-   ======================================== */
+    */
 
 .screen {
   display: flex;
@@ -126,9 +126,9 @@ body {
   text-align: center;
 }
 
-/* ========================================
+/* 
    Typography
-   ======================================== */
+    */
 
 h1,
 h2,
@@ -155,9 +155,9 @@ p {
   color: var(--text-secondary);
 }
 
-/* ========================================
+/* 
    Loading Screen
-   ======================================== */
+    */
 
 .loading-container {
   text-align: center;
@@ -182,9 +182,9 @@ p {
   }
 }
 
-/* ========================================
+/* 
    Game Header & Title
-   ======================================== */
+    */
 
 .game-header {
   margin-bottom: 3rem;
@@ -227,9 +227,9 @@ p {
   }
 }
 
-/* ========================================
+/* 
    Buttons
-   ======================================== */
+    */
 
 .btn {
   display: inline-flex;
@@ -330,9 +330,9 @@ p {
   outline-offset: 2px;
 }
 
-/* ========================================
+/* 
    Menu & Navigation
-   ======================================== */
+    */
 
 .menu-buttons {
   display: flex;
@@ -368,9 +368,9 @@ p {
   transform: translateX(-2px);
 }
 
-/* ========================================
+/* 
    Instructions
-   ======================================== */
+    */
 
 .instructions {
   text-align: left;
@@ -408,9 +408,9 @@ p {
   font-size: 0.95rem;
 }
 
-/* ========================================
+/* 
    High Scores
-   ======================================== */
+    */
 
 .high-scores-list {
   margin: 2rem 0;
@@ -472,9 +472,9 @@ p {
   padding: 3rem 1rem;
 }
 
-/* ========================================
+/* 
    Settings
-   ======================================== */
+    */
 
 .settings-grid {
   display: grid;
@@ -539,9 +539,9 @@ p {
   white-space: nowrap;
 }
 
-/* ========================================
+/* 
    Custom Settings
-   ======================================== */
+    */
 
 .custom-settings {
   text-align: left;
@@ -629,9 +629,9 @@ p {
   color: var(--text-secondary);
 }
 
-/* ========================================
+/* 
    Countdown Screen
-   ======================================== */
+    */
 
 .countdown-display {
   text-align: center;
@@ -666,9 +666,9 @@ p {
   }
 }
 
-/* ========================================
+/* 
    Game Screen
-   ======================================== */
+    */
 
 .game-container {
   width: 100%;
@@ -900,9 +900,9 @@ p {
   }
 }
 
-/* ========================================
+/* 
    Pause Screen
-   ======================================== */
+    */
 
 .pause-container {
   background: var(--background-color);
@@ -932,9 +932,9 @@ p {
   margin-top: 2rem;
 }
 
-/* ========================================
+/* 
    End Screen
-   ======================================== */
+    */
 
 .end-game-content {
   text-align: center;
@@ -996,9 +996,7 @@ p {
   margin-top: 2rem;
 }
 
-/* ========================================
-   Floating Animations
-   ======================================== */
+/* Floating Animations */
 
 .floating-animations {
   position: fixed;
@@ -1029,9 +1027,7 @@ p {
   }
 }
 
-/* ========================================
-   Background Elements
-   ======================================== */
+/* Background Elements */
 
 .background-elements {
   position: fixed;
